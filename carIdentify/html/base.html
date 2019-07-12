@@ -1,0 +1,87 @@
+﻿#彭永超 钱可
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+<title>{% block title %}{% endblock %}-车辆识别系统</title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/normalize.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/demo.css')}}" />
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
+<!--必要样式-->
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/component.css')}}" />
+<!--[if IE]>
+<script src="{{url_for('static',filename='js/html5.js')}}"></script>
+{% block head %}{% endblock %}
+<![endif]-->
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #000000;
+    }
+
+    ul {
+        margin-top: 10px;
+        margin-left: 50px;
+    }
+
+    li {
+        float: left;
+        list-style: none;
+        padding: 0 20px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    li::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 0;
+        height: 100%;
+        border-bottom: 2px solid #FFFFFF;
+        transition: 0.2s all linear;
+        z-index: -1;
+    }
+
+    li:hover::before {
+        width: 100%;
+        left: 0;
+    }
+
+    li:hover ~ li::before {
+        left: 0;
+    }
+    {% block style %}{% endblock %}
+</style>
+<body>
+<ul>
+    <li><a href="{{url_for('carRecognition')}}">车辆识别</a></li>
+    <li><a href="{{url_for('numberRecognition')}}">车牌识别</a></li>
+    <li><a href="{{url_for('logoRecognition')}}">车型识别</a></li>
+    <li><a href="{{url_for('feaRecognition')}}">属性识别</a></li>
+    <li><a href="{{url_for('driverAnalyse')}}">驾驶员分析</a></li>
+{#    {% if user %}#}
+{#    <li><a href="#">{{ user.name}}</a></li>#}
+{#    <li><a href="{{url_for('logout')}}">注销</a></li>#}
+{#    {% else %}#}
+{#    <li><a href="{{url_for('login')}}">登录</a></li>#}
+{#    <li><a href="{{url_for('regist')}}">注册</a></li>#}
+{#    {% endif %}#}
+</ul>
+
+{% block main %} {% endblock %}
+
+<script src="{{url_for('static',filename='js/TweenLite.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/EasePack.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/rAF.js')}}"></script>
+<script src="{{url_for('static',filename='js/demo-1.js')}}"></script>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+﻿#钱可 彭永超
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>车型识别</title>
+</head>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    width: 1350px;
+    height: 580px;
+}
+
+.left{
+    margin-left: 100px;
+    height: 100%;
+    width:700px;
+    padding-top:250px;
+}
+.right{
+    margin-left: 900px;
+    height:100%;
+    padding-top:0px;
+    width: 550px;
+}
+.container::after{
+    content: '';
+    display: block;
+    visibility: hidden;
+    clear: both
+}
+    a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+
+    ul {
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+
+    li {
+        float: left;
+        list-style: none;
+        padding:  20px;
+        cursor: pointer;
+        position: relative;
+    }
+    .aaa{
+        float: right;
+    }
+    li::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 0;
+        height: 100%;
+        border-bottom: 2px solid #FFFFFF;
+        transition: 0.2s all linear;
+        z-index: -1;
+    }
+
+    li:hover::before {
+        width: 100%;
+        left: 0;
+    }
+    .container{
+    width: 1350px;
+    height: 0px;
+}
+
+.file {
+    position: relative;
+    display: inline-block;
+    background: #38B0DE;
+    border: 2px solid #FFFFFF;
+    border-radius: 4px;
+    padding: 10px 130px;
+    overflow: hidden;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+
+.container::after{
+    content: '';
+    display: block;
+    visibility: hidden;
+    clear: both
+}
+
+
+    li:hover ~ li::before {
+        left: 0;
+    }
+</style>
+
+<body background="{{ url_for('static', filename= './img/demo-1-bg.jpg') }}">
+<ul>
+    <li><a href="{{url_for('carRecognition')}}">车辆识别</a></li>
+    <li><a href="{{url_for('numberRecognition')}}">车牌识别</a></li>
+    <li><a href="{{url_for('logoRecognition')}}">车型识别</a></li>
+    <li><a href="{{url_for('feaRecognition')}}">属性识别</a></li>
+    <li><a href="{{url_for('driverAnalyse')}}">驾驶员分析</a></li>
+    {% if user %}
+     <li class="aaa"><a href="{{url_for('logout')}}">注销</a></li>
+    <li class="aaa"><a href="#">{{ user.name}}</a></li>
+    {% else %}
+    <li class="aaa"><a href="{{url_for('regist')}}">注册</a></li>
+    <li class="aaa"><a href="{{url_for('login')}}">登录</a></li>
+    {% endif %}
+</ul>
+    <div class=container>
+        <div class=left align="center"><h2 style="color:white " >车牌识别</h2>
+                <br>
+<br>
+                <br>
+            <br>
+                <form action="#" name="f" enctype='multipart/form-data' method="POST">
+
+                    <div class="mb2">
+                        <a href="javascript:;" class="file">选择文件
+                            <input type="file" name="file" id="" >
+                        </a>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+
+                    <div class="mb2">
+                        <a href="javascript:;" class="file">确认提交
+                            <input type="submit" name="" id="">
+                        </a>
+                    </div>
+
+                </form></div>
+        <div class=right>
+
+                <img src="{{ url_for('static', filename= './image/bg.jpg',_t=val1) }}" width="380" height="300" style="vertical-align:middle">
+<br>
+<br>
+<br>
+</div>
+    </div>
+</body>
+</html>

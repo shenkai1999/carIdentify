@@ -1,0 +1,193 @@
+﻿#彭永超 钱可 沈楷
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<title>驾驶员识别</title>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+
+    ul {
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+
+    li {
+        float: left;
+        list-style: none;
+        padding:  20px;
+        cursor: pointer;
+        position: relative;
+    }
+    .aaa{
+        float: right;
+    }
+    li::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 0;
+        height: 100%;
+        border-bottom: 2px solid #FFFFFF;
+        transition: 0.2s all linear;
+        z-index: -1;
+    }
+
+    li:hover::before {
+        width: 100%;
+        left: 0;
+    }
+    .container{
+    width: 1350px;
+    height: 0px;
+}
+
+.left{
+
+    margin-left: 30px;
+    height: 100%;
+    padding-top:80px;
+}
+.right{
+
+    margin-left: 600px;
+    {#height:100%;#}
+    padding-top:-150px;
+}
+.container::after{
+    content: '';
+    display: block;
+    visibility: hidden;
+    clear: both
+}
+
+
+    li:hover ~ li::before {
+        left: 0;
+    }
+
+</style>
+</head>
+<body background="{{ url_for('static', filename= './img/demo-1-bg.jpg') }}">
+<ul>
+    <li><a href="{{url_for('carRecognition')}}">车辆识别</a></li>
+    <li><a href="{{url_for('numberRecognition')}}">车牌识别</a></li>
+    <li><a href="{{url_for('logoRecognition')}}">车型识别</a></li>
+    <li><a href="{{url_for('feaRecognition')}}">属性识别</a></li>
+    <li><a href="{{url_for('driverAnalyse')}}">驾驶员分析</a></li>
+    {% if user %}
+     <li class="aaa"><a href="{{url_for('logout')}}">注销</a></li>
+    <li class="aaa"><a href="#">{{ user.name}}</a></li>
+    {% else %}
+    <li class="aaa"><a href="{{url_for('regist')}}">注册</a></li>
+    <li class="aaa"><a href="{{url_for('login')}}">登录</a></li>
+    {% endif %}
+</ul>
+
+<div class=container>
+        <div class=left><img src="{{ url_for('static', filename= './image/testdriver.jpg',_t=val1) }}" width="480" height="425" ></div>
+        <div class=right>
+<canvas  id="a_canvas" width="1000" height="450"></canvas>
+<script>
+    (function myfunction(list){
+
+        window.addEventListener("load", function(){
+
+          var data = list
+
+          var xinforma = ['使用手机','双手离开方向盘','视线未看前方','未系安全带','抽烟'];
+
+          // 获取上下文
+          var a_canvas = document.getElementById('a_canvas');
+          var context = a_canvas.getContext("2d");
+
+          context.font="15px Arial";
+          // 绘制背景
+          var gradient = context.createLinearGradient(0,0,0,300);
+            
+          context.fillStyle = gradient;
+
+          context.fillRect(0,0,a_canvas.width,a_canvas.height);
+
+          var realheight = a_canvas.height-25;
+          var realwidth = a_canvas.width-40;
+          // 描绘边框
+          var grid_cols = data.length + 1;
+          var grid_rows = 4;
+          var cell_height = realheight / grid_rows;
+          var cell_width = realwidth / grid_cols;
+          context.lineWidth = 1;
+          context.strokeStyle = "#a0a0a0";
+
+          // 结束边框描绘
+          context.beginPath();
+          // 准备画横线
+
+
+            //划横线
+            context.moveTo(0,realheight);
+            context.lineTo(realwidth,realheight);
+
+
+            //画竖线
+          context.moveTo(0,20);
+           context.lineTo(0,realheight);
+          context.lineWidth = 1;
+          context.strokeStyle = "white";
+          context.stroke();
+
+          var max_v =0;
+
+          for(var i = 0; i<data.length; i++){
+            if (data[i] > max_v) { max_v =data[i]};
+          }
+          max_v = max_v * 1.1;
+          // 将数据换算为坐标
+          var points = [];
+          for( var i=0; i < data.length; i++){
+            var v= data[i];
+            var px = cell_width *　(i+0.8);
+            var py = realheight - realheight*(v / max_v);
+            points.push({"x":px,"y":py});
+          }
+
+          //绘制坐标图形
+          for(var i in points){
+            var p = points[i];
+            context.beginPath();
+            context.fillStyle="blue";
+            context.fillRect(p.x,p.y,25,realheight-p.y);
+
+            context.fill();
+          }
+          //添加文字
+          for(var i in points)
+          {  var p = points[i];
+            context.beginPath();
+            context.fillStyle="white";
+
+            context.fillText(data[i], p.x + 1, p.y - 15);
+             context.fillText(xinforma[i],p.x ,realheight+15);
+             context.fillText('属性',realwidth,realheight+5);
+             context.fillText('概率',0,15);
+              }
+        },false);
+      })({{ list1 }});
+
+</script>
+</div>
+    </div>
+
+</body>
+</html>
